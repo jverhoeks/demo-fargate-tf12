@@ -1,7 +1,9 @@
 # First take at Terraform 0.12
 
-Migration my fargate demo code to terraform 0.12
+After the webinar of Hashicorp i felt inspired and started to test the latest alpha4 and upgrade some demo repo i wrote for a meetup
+https://github.com/edrans/meetup-bcn-ecs-terraform
 
+First in terraform 0.11
 
 ## Terraform 0.11
 
@@ -263,13 +265,16 @@ I like to use tfenv, but i requires some changes for the alpha
 Apply:  https://github.com/tfutils/tfenv/pull/94/files
 
 Edit /usr/local/Cellar/tfenv/0.6.0/libexec/tfenv-install` line 73:
+```
 if [[ $version == *alpha* ]]; then
   tarball_name="terraform_${version}_terraform_${version}_${os}.zip"
 else
   tarball_name="terraform_${version}_${os}.zip"
+```
 
-Hashicorp did something strange with the filename
-`tfenv install 0.12.0-alpha4`
+Hashicorp did something strange with the filename, it included twice name and version
+
+Run: `tfenv install 0.12.0-alpha4`
 
 
 ```bash
