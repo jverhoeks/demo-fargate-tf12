@@ -1,8 +1,10 @@
 # Global Aws data resources
-data "aws_region" "current" {}
+data "aws_region" "current" {
+}
 
 #https://www.terraform.io/docs/providers/aws/d/caller_identity.html
-data "aws_caller_identity" "current" {}
+data "aws_caller_identity" "current" {
+}
 
 // retrieve Default VPC information
 data "aws_vpc" "default" {
@@ -11,7 +13,7 @@ data "aws_vpc" "default" {
 
 // retreive subnets-ids for default VPC
 data "aws_subnet_ids" "default" {
-  vpc_id = "${data.aws_vpc.default.id}"
+  vpc_id = data.aws_vpc.default.id
 }
 
 # // retreive subnets for default VPC
@@ -29,7 +31,6 @@ provider "aws" {
 # an error is shown
 terraform {
   required_version = ">= 0.11"
-
   #  backend          "s3"             {}
 }
 

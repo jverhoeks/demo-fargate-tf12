@@ -22,3 +22,4 @@ variable "ecs_task" {
     container_port = 8080
   }
 }
+

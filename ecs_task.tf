@@ -1,39 +1,39 @@
 // Use cluster module to create the Cluster
-module ecs_cluster {
+module "ecs_cluster" {
   source = "./fargate-cluster"
-  name   = "${var.ecs_cluster_name}"
+  name   = var.ecs_cluster_name
 }
 
 // use task module to create the fargate task
 module "ecs_task" {
   source              = "./fargate-task"
-  task_execution_role = "${module.ecs_cluster.execution_role_arn}"
-  service             = "${var.ecs_task["service"]}"
-  family              = "${var.ecs_task["family"]}"
-  cpu                 = "${var.ecs_task["cpu"]}"
-  memory              = "${var.ecs_task["memory"]}"
-  desired_count       = "${var.ecs_task["desired_count"]}"
+  task_execution_role = module.ecs_cluster.execution_role_arn
+  service             = var.ecs_task["service"]
+  family              = var.ecs_task["family"]
+  cpu                 = var.ecs_task["cpu"]
+  memory              = var.ecs_task["memory"]
+  desired_count       = var.ecs_task["desired_count"]
   image               = "${aws_ecr_repository.registry.repository_url}:latest"
-  host_port           = "${var.ecs_task["host_port"]}"
-  container_port      = "${var.ecs_task["container_port"]}"
-  cluster_name        = "${var.ecs_cluster_name}"
+  host_port           = var.ecs_task["host_port"]
+  container_port      = var.ecs_task["container_port"]
+  cluster_name        = var.ecs_cluster_name
 
-  aws_region         = "${data.aws_region.current.name}"
-  subnet_ids         = "${data.aws_subnet_ids.default.ids}"
-  security_group_ids = ["${aws_security_group.ecs_demo.id}"]
+  aws_region         = data.aws_region.current.name
+  subnet_ids         = data.aws_subnet_ids.default.ids
+  security_group_ids = [aws_security_group.ecs_demo.id]
   assign_public_ip   = true
-  log_group_arn      = "${module.ecs_cluster.log_group_arn}"
+  log_group_arn      = module.ecs_cluster.log_group_arn
 }
 
 // SG For the Task, opens the container port to the world
 resource "aws_security_group" "ecs_demo" {
   name   = "SGECS-${var.ecs_cluster_name}-${var.ecs_task["service"]}"
-  vpc_id = "${data.aws_vpc.default.id}"
+  vpc_id = data.aws_vpc.default.id
 
   # allow all open for now
   ingress {
-    from_port   = "${var.ecs_task["host_port"]}"
-    to_port     = "${var.ecs_task["host_port"]}"
+    from_port   = var.ecs_task["host_port"]
+    to_port     = var.ecs_task["host_port"]
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -49,9 +49,9 @@ resource "aws_security_group" "ecs_demo" {
 // additional policy for the task to access dynamodb
 resource "aws_iam_role_policy" "ecs_task_allow_dynamodb_demo" {
   name = "ecs-allow-dynamodb-demo"
-  role = "${module.ecs_task.task_iam_role_id}"
+  role = module.ecs_task.task_iam_role_id
 
-  policy = "${data.aws_iam_policy_document.ecs_task_allow_dynamodb_demo_policy.json}"
+  policy = data.aws_iam_policy_document.ecs_task_allow_dynamodb_demo_policy.json
 }
 
 data "aws_iam_policy_document" "ecs_task_allow_dynamodb_demo_policy" {
@@ -82,7 +82,8 @@ data "aws_iam_policy_document" "ecs_task_allow_dynamodb_demo_policy" {
       "dynamodb:PutItem",
     ]
     resources = [
-      "${aws_dynamodb_table.basic-dynamodb-table.arn}",
+      aws_dynamodb_table.basic-dynamodb-table.arn,
     ]
   }
 }
+
