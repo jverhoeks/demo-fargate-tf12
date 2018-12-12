@@ -2,7 +2,7 @@
 resource "aws_iam_role" "ecs_service_task_role" {
   name_prefix = "EcsTask-${var.cluster_name}-"
 
-  assume_role_policy = "${data.aws_iam_policy_document.ecs_service_task_role_assume.json}"
+  assume_role_policy = data.aws_iam_policy_document.ecs_service_task_role_assume.json
 }
 
 data "aws_iam_policy_document" "ecs_service_task_role_assume" {
@@ -15,3 +15,4 @@ data "aws_iam_policy_document" "ecs_service_task_role_assume" {
     }
   }
 }
+

@@ -1,16 +1,16 @@
 variable "service" {
   description = "Name of the service to be created"
-  type        = "string"
+  type        = string
 }
 
 variable "family" {
   description = "Name of the family to be created"
-  type        = "string"
+  type        = string
 }
 
 variable "cluster_name" {
   description = "Name of the ecs cluster for the task"
-  type        = "string"
+  type        = string
 }
 
 variable "cpu" {
@@ -25,7 +25,7 @@ variable "memory" {
 
 variable "image" {
   description = "Path of docker image including tag"
-  type        = "string"
+  type        = string
 }
 
 variable "host_port" {
@@ -43,17 +43,19 @@ variable "desired_count" {
   default     = 1
 }
 
-variable "task_execution_role" {}
+variable "task_execution_role" {
+}
 
-variable "aws_region" {}
+variable "aws_region" {
+}
 
 variable "subnet_ids" {
-  type    = "list"
+  type    = list(string)
   default = []
 }
 
 variable "security_group_ids" {
-  type    = "list"
+  type    = list(string)
   default = []
 }
 
@@ -61,8 +63,11 @@ variable "assign_public_ip" {
   default = false
 }
 
-variable "log_group_arn" {}
+variable "log_group_arn" {
+}
 
 variable "tags" {
-  default = {}
+  default = {
+  }
 }
+
