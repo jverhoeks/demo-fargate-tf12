@@ -5,10 +5,12 @@ variable "name" {
 
 variable "tags" {
   description = "Tags for resources"
-  default     = {}
+  default = {
+  }
 }
 
 variable "gdpr_delete_days" {
   description = "Clean up resources after x days"
   default     = 7
 }
+
