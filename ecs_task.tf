@@ -51,40 +51,38 @@ resource "aws_iam_role_policy" "ecs_task_allow_dynamodb_demo" {
   name = "ecs-allow-dynamodb-demo"
   role = "${module.ecs_task.task_iam_role_id}"
 
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "ListAndDescribe",
-            "Effect": "Allow",
-            "Action": [
-                "dynamodb:List*",
-                "dynamodb:DescribeReservedCapacity*",
-                "dynamodb:DescribeLimits",
-                "dynamodb:DescribeTimeToLive"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "SpecificTable",
-            "Effect": "Allow",
-            "Action": [
-                "dynamodb:BatchGet*",
-                "dynamodb:DescribeStream",
-                "dynamodb:DescribeTable",
-                "dynamodb:Get*",
-                "dynamodb:Query",
-                "dynamodb:Scan",
-                "dynamodb:BatchWrite*",
-                "dynamodb:CreateTable",
-                "dynamodb:Delete*",
-                "dynamodb:Update*",
-                "dynamodb:PutItem"
-            ],
-            "Resource": "${aws_dynamodb_table.basic-dynamodb-table.arn}"
-        }
-    ]
+  policy = "${data.aws_iam_policy_document.ecs_task_allow_dynamodb_demo_policy.json}"
 }
-EOF
+
+data "aws_iam_policy_document" "ecs_task_allow_dynamodb_demo_policy" {
+  statement {
+    actions = [
+      "dynamodb:List*",
+      "dynamodb:DescribeReservedCapacity*",
+      "dynamodb:DescribeLimits",
+      "dynamodb:DescribeTimeToLive",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
+  statement {
+    actions = [
+      "dynamodb:BatchGet*",
+      "dynamodb:DescribeStream",
+      "dynamodb:DescribeTable",
+      "dynamodb:Get*",
+      "dynamodb:Query",
+      "dynamodb:Scan",
+      "dynamodb:BatchWrite*",
+      "dynamodb:CreateTable",
+      "dynamodb:Delete*",
+      "dynamodb:Update*",
+      "dynamodb:PutItem",
+    ]
+    resources = [
+      "${aws_dynamodb_table.basic-dynamodb-table.arn}",
+    ]
+  }
 }

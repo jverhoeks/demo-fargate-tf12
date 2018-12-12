@@ -28,7 +28,7 @@ provider "aws" {
 # If the running Terraform version doesn't meet these constraints,
 # an error is shown
 terraform {
-  required_version = ">= 0.12"
+  required_version = ">= 0.11"
 
   #  backend          "s3"             {}
 }
