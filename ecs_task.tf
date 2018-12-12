@@ -1,12 +1,12 @@
 // Use cluster module to create the Cluster
 module ecs_cluster {
-  source = "fargate-cluster"
+  source = "./fargate-cluster"
   name   = "${var.ecs_cluster_name}"
 }
 
 // use task module to create the fargate task
 module "ecs_task" {
-  source              = "fargate-task"
+  source              = "./fargate-task"
   task_execution_role = "${module.ecs_cluster.execution_role_arn}"
   service             = "${var.ecs_task["service"]}"
   family              = "${var.ecs_task["family"]}"
