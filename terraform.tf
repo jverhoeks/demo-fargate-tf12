@@ -22,13 +22,13 @@ data "aws_subnet" "default" {
 
 provider "aws" {
   #  region  = "${data.aws_region.current.name}"
-  version = "~> 1.36"
+  version = "= 1.40.0"
 }
 
 # If the running Terraform version doesn't meet these constraints,
 # an error is shown
 terraform {
-  required_version = ">= 0.11.4"
+  required_version = ">= 0.12"
 
   #  backend          "s3"             {}
 }
@@ -37,4 +37,3 @@ terraform {
 # resource "aws_iam_service_linked_role" "ecs" {
 #   aws_service_name = "ecs.amazonaws.com"
 # }
-
