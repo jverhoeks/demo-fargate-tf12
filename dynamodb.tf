@@ -16,7 +16,7 @@ resource "aws_dynamodb_table" "basic-dynamodb-table" {
     type = "S"
   }
 
-  tags {
+  tags = {
     Name        = "dynamodb-table-demo"
     Environment = "demo"
   }

@@ -46,7 +46,7 @@ resource "aws_ecs_service" "service" {
 data "template_file" "task_definition" {
   template = "${file("${path.module}/task_definition.json")}"
 
-  vars {
+  vars = {
     cpu           = "${var.cpu}"
     mem           = "${var.memory}"
     image         = "${var.image}"
