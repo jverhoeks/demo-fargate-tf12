@@ -14,11 +14,11 @@ data "aws_subnet_ids" "default" {
   vpc_id = "${data.aws_vpc.default.id}"
 }
 
-// retreive subnets for default VPC
-data "aws_subnet" "default" {
-  count = "${length(data.aws_subnet_ids.default.ids)}"
-  id    = "${data.aws_subnet_ids.default.ids[count.index]}"
-}
+# // retreive subnets for default VPC
+# data "aws_subnet" "default" {
+#   count = "${length(data.aws_subnet_ids.default.ids)}"
+#   id    = "${data.aws_subnet_ids.default.ids[count.index]}"
+# }
 
 provider "aws" {
   #  region  = "${data.aws_region.current.name}"
